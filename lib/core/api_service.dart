@@ -9,27 +9,127 @@ class ApiService {
 
   UserModel? currentUser;
 
-  // Auto Login verification
+  // Real Dashboard Client & Manager Credentials
   Future<UserModel> authenticate(String emailOrPhone, String password) async {
-    // Simulate network delay
-    await Future.delayed(const Duration(milliseconds: 600));
+    await Future.delayed(const Duration(milliseconds: 400));
+    final u = emailOrPhone.trim().toLowerCase();
+    final p = password.trim();
 
-    // Auto-detect role & services (Default to manager for testing, staff if specified)
-    final isStaff = emailOrPhone.toLowerCase().contains('staff');
-    final role = isStaff ? 'staff' : 'manager';
+    // 1. Temp Commerce (Manager & Owner)
+    if (u == 'tempcom' || u == '0722882344') {
+      if (p == 'ClientPass#2026' || p == '123456') {
+        return currentUser = UserModel(
+          id: 'client_tempcom',
+          name: 'Commerce Temp (Manager)',
+          email: 'tempcom@lumi.ai',
+          phone: '0722882344',
+          role: 'manager',
+          companyName: 'Temp Commerce',
+          companyId: 'client_tempcom',
+          services: ['meta_api', 'smart_hr'],
+          token: 'token_tempcom_2026',
+        );
+      }
+    }
 
+    // 2. Apex Logistics - Operations Lead Manager (Naveen)
+    if (u == 'naveen_ops' || u == 'naveen@apex.lk' || u == '+94772233445') {
+      if (p == 'NavOps@2026' || p == '123456') {
+        return currentUser = UserModel(
+          id: 'mgr_apex_1',
+          name: 'Naveen Fernando (Operations Lead)',
+          email: 'naveen@apex.lk',
+          phone: '+94772233445',
+          role: 'manager',
+          companyName: 'Apex Logistics LK',
+          companyId: 'client_apex',
+          services: ['meta_api'],
+          token: 'token_naveen_2026',
+        );
+      }
+    }
+
+    // 3. Apex Logistics - Customer Support Lead Manager (Tharushi)
+    if (u == 'tharushi_cs' || u == 'tharushi@apex.lk' || u == '+94719988776') {
+      if (p == 'Support@2026' || p == '123456') {
+        return currentUser = UserModel(
+          id: 'mgr_apex_2',
+          name: 'Tharushi Perera (Support Lead)',
+          email: 'tharushi@apex.lk',
+          phone: '+94719988776',
+          role: 'manager',
+          companyName: 'Apex Logistics LK',
+          companyId: 'client_apex',
+          services: ['meta_api'],
+          token: 'token_tharushi_2026',
+        );
+      }
+    }
+
+    // 4. Apex Logistics LK (Owner / Admin)
+    if (u == 'apex_admin' || u == '+94771234567') {
+      if (p == 'ApexSecure@2026' || p == '123456') {
+        return currentUser = UserModel(
+          id: 'client_apex',
+          name: 'Kasun Perera (Apex Admin)',
+          email: 'admin@apex.lk',
+          phone: '+94771234567',
+          role: 'manager',
+          companyName: 'Apex Logistics LK',
+          companyId: 'client_apex',
+          services: ['meta_api'],
+          token: 'token_apex_2026',
+        );
+      }
+    }
+
+    // 5. IMA Tech (Manager & Owner)
+    if (u == 'imatech') {
+      if (p == 'ClientPass#2026' || p == '123456') {
+        return currentUser = UserModel(
+          id: 'client_imatech',
+          name: 'Tech Lead (Manager)',
+          email: 'tech@imatech.lk',
+          phone: '0722882344',
+          role: 'manager',
+          companyName: 'IMA Tech',
+          companyId: 'client_imatech',
+          services: ['meta_api', 'smart_hr'],
+          token: 'token_imatech_2026',
+        );
+      }
+    }
+
+    // 6. Master Administrator Chamindu
+    if (u == '0714941559' || u == 'chamindu' || u == 'dchamindu826@gmail.com') {
+      if (p == '@#Chamindu1000' || p == '123456') {
+        return currentUser = UserModel(
+          id: 'admin_chamindu',
+          name: 'Chamindu (Master Admin)',
+          email: 'dchamindu826@gmail.com',
+          phone: '0714941559',
+          role: 'manager',
+          companyName: 'LUMI System Core',
+          companyId: 'client_system',
+          services: ['meta_api', 'smart_hr'],
+          token: 'token_chamindu_master',
+        );
+      }
+    }
+
+    // 7. Generic Fallback for Demo / Custom logins
+    final isStaff = u.contains('staff');
     currentUser = UserModel(
       id: isStaff ? 'usr_staff_01' : 'usr_mngr_01',
-      name: isStaff ? 'Nimal Bandara' : 'Kasun (Manager)',
-      email: emailOrPhone.contains('@') ? emailOrPhone : '$emailOrPhone@business.lk',
-      phone: emailOrPhone.contains('@') ? '+94 77 123 4567' : emailOrPhone,
-      role: role,
-      companyName: 'Temp Commerce / LUMI AI',
-      companyId: 'client_tempcom',
-      services: ['meta_api', 'smart_hr'], // Has both Meta CRM and Smart HR
+      name: isStaff ? 'Staff Member' : 'Manager ($u)',
+      email: u.contains('@') ? u : '$u@business.lk',
+      phone: u.contains('@') ? '+94 77 123 4567' : u,
+      role: isStaff ? 'staff' : 'manager',
+      companyName: 'LUMI AI Business',
+      companyId: 'client_custom',
+      services: ['meta_api', 'smart_hr'],
       token: 'mock_jwt_token_2026_xyz',
     );
-
     return currentUser!;
   }
 
